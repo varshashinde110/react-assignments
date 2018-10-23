@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+@import '../../../styles/base/variables';
+
+header {
+  width: 100%;
+  background-color: $blue;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+section .content { 
+  margin:30px auto;
+  font-family: 'Lato', sans-serif;
+}
+

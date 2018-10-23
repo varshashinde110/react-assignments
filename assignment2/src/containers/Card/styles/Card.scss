@@ -1,0 +1,37 @@
+@import "../../../styles/base/variables";
+@import url("https://fonts.googleapis.com/css?family=Lato");
+
+.simple-card {
+  background: #fff;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.12);
+  padding: 30px;
+  font-family: "Lato", sans-serif;
+  p {
+    font-size: 18px;
+  }
+  button {
+    width: 100%;
+    color: $blue;
+    position: relative;
+    top: 7px;
+    background-color: $white;
+    box-shadow: none;
+    border-color: $blue;
+  }
+  button:focus {
+    outline: 0px;
+  }
+  .user-details {
+    margin: 0px 0px;
+  }
+  h1 {
+    margin-top: 5px;
+  }
+  .collapse.in {
+    margin-top: 20px;
+    padding: 20px 0px;
+    display: inline-block;
+    border-top:1px solid;
+    width:100%;
+  }
+}

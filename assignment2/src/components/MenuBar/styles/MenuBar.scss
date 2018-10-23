@@ -1,0 +1,21 @@
+@import '../../../styles/base/variables';
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+.header-menu {
+  padding: 30px 0 0px 0;
+  margin: 0 auto;
+  font-family: 'Lato', sans-serif;
+  .form-control, select.form-control {
+    height:50px !important;
+    font-size: 18px;
+  }
+  .form-control-feedback{
+    display: flex;
+    align-items: flex-end;
+    right: 10px;
+  }
+  ::placeholder{
+    font-size: 18px;
+    color: $grey;
+  }
+}
