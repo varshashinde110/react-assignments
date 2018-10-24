@@ -37,15 +37,19 @@ export class Card extends React.PureComponent {
           </div>
         </div>
         <div id="demo" className="row collapse">
-          <div className="col-md-8 col-md-offset-2">
-            <div className="data-cell">
-            <div className="col-md-6"><p>Data Label One</p></div>
-            <div className="col-md-6"><p>Data Value One</p></div>
-            </div>
-            <div className="data-cell">
-            <div className="col-md-6"><p>Data Label Two</p></div>
-            <div className="col-md-6"><p>Data Value Two</p></div>
-            </div>
+          <div className="col-md-12">
+            <table className="table table-striped">
+              <tbody>
+                <tr>
+                  <td>Data Label</td>
+                  <td>Data Value One</td>
+                </tr>
+                <tr>
+                  <td>Data Label</td>
+                  <td>Data Value Two</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
