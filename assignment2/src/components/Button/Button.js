@@ -3,9 +3,17 @@ import React from 'react';
 
 export class Button extends React.PureComponent {
   render() {
-    // const { props } = this;
+    const { props } = this;
     return (
-        <button type="button" className="btn-lg btn-primary">Details</button>
+      <button
+        type={props.type}
+        className={props.className}
+        data-toggle={props.dataToggle}
+        data-target={props.dataTarget}
+        onClick={props.onClick}
+      >
+        {props.title}
+      </button>
     );
   }
 }
