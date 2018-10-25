@@ -7,49 +7,80 @@ import { Label } from '../../../components/Label/Label';
 import { MenuBar } from '../../../components/MenuBar/MenuBar';
 import { SelectBox } from '../../../components/SelectBox/SelectBox';
 import { InputBox } from '../../../components/InputBox/InputBox';
+import Pagination from '../../../components/Pagination/Pagination';
 
 export default class ProfileCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: null,
+      //   error: null,
       isLoading: true,
       data: [],
       totalCount: 0,
       username: '',
-      showCount: false
+      showData: false,
+      currentUsers: [],
+      currentPage: null,
+      totalPages: null
     };
   }
+
   handleChange = (username) => {
     this.setState({ username }, () => {
-      fetch(`https://api.github.com/search/users?q=${this.state.username}`)
-        .then(res => res.json())
+      fetch(`https://api.github.com/search/users?q=${this.state.user_name}`)
+        .then(response => response.json())
         .then(
           result =>
             this.setState({
               isLoading: true,
               data: result.items,
               totalCount: result.total_count,
-              showCount: true
+              showData: true
             }),
-          error => this.setState({ isLoading: true, error })
-        );
+          (error) => {
+            throw error;
+            this.setState({ isLoading: true }); //eslint-disable-line
+          }
+        )
+        .catch(error => console.log("There is an error")); //eslint-disable-line
+    });
+  };
+
+  handlePageChange = (users) => {
+    const { data } = this.state;
+    const { currentPage, totalPages, pageLimit } = users;
+
+    const offset = (currentPage - 1) * pageLimit;
+    const currentUsers = data.slice(offset, offset + pageLimit);
+
+    this.setState({
+      currentPage,
+      currentUsers,
+      totalPages,
+      showData: true
     });
   };
 
   handleSorting = (key) => {
     this.setState({ key });
-    const data = this.state.data;
-    data.sort((a, b) => a.key - b.key).reverse();
-    this.setState({ data });
+    const currentUsers = this.state.currentUsers;
+    currentUsers.sort((a, b) => a.key - b.key).reverse();
+    this.setState({ currentUsers });
   };
 
   render() {
     const {
- error, isLoading, data, totalCount, showCount 
-} = this.state;
-    if (error) return <div>Error : {error.message}</div>;
-    else if (!isLoading) return <div>Loading...</div>;
+      isLoading,
+      totalCount,
+      showData,
+      currentUsers,
+      currentPage,
+      totalPages
+    } = this.state;
+
+    const totalUsers = totalCount;
+    // if (totalUsers === 0) return null;
+    if (!isLoading) return <div>Loading...</div>;
     return (
       <Fragment>
         <header className="parallax-header">
@@ -81,9 +112,9 @@ export default class ProfileCard extends React.Component {
         </header>
         <section>
           <div className="content container">
-            {showCount && <Label resultsCount={totalCount} />}
+            {showData && <Label resultsCount={totalCount} />}
             <Card>
-              {data.map(user => (
+              {currentUsers.map(user => (
                 <div className="row simple-card" key={user.id}>
                   <div className="col-md-12">
                     <div className="col-md-2">
@@ -137,6 +168,22 @@ export default class ProfileCard extends React.Component {
               ))}
             </Card>
           </div>
+          <div>
+            {currentPage && (
+              <span className="current-page d-inline-block h-100 pl-4 text-secondary">
+                Page <span className="font-weight-bold">{currentPage}</span> /{' '}
+                <span className="font-weight-bold">{totalPages}</span>
+              </span>
+            )}
+          </div>
+          {showData && (
+            <Pagination
+              totalRecords={totalUsers}
+              pageLimit={5}
+              pageNeighbours={1}
+              onPageChanged={this.handlePageChange}
+            />
+          )}
         </section>
       </Fragment>
     );
