@@ -6,20 +6,20 @@ const RIGHT_PAGE = 'RIGHT';
 
 const range = (from, to, step = 1) => {
   let i = from;
-  const rangeArr = [];
+  const range = [];//eslint-disable-line
 
   while (i <= to) {
-    rangeArr.push(i);
+    range.push(i);
     i += step;
   }
 
-  return rangeArr;
+  return range; //eslint-disable-line
 };
 
 class Pagination extends Component {
   constructor(props) {
     super(props);
-    const { totalRecords = null, pageLimit = 30, pageNeighbours = 0 } = props;
+    const { totalRecords, pageLimit, pageNeighbours } = props;
 
     this.pageLimit = typeof pageLimit === 'number' ? pageLimit : 30;
     this.totalRecords = typeof totalRecords === 'number' ? totalRecords : 0;
@@ -50,7 +50,7 @@ class Pagination extends Component {
       totalRecords: this.totalRecords
     };
 
-    this.setState({ currentPage }, () => onPageChanged(paginationData));
+    this.setState(() => onPageChanged(paginationData));
   };
 
   handleClick = (page, evt) => {
@@ -60,12 +60,12 @@ class Pagination extends Component {
 
   handleMoveLeft = (evt) => {
     evt.preventDefault();
-    this.gotoPage(this.state.currentPage - (this.pageNeighbours * 2) - 1);
+    this.gotoPage(this.state.currentPage - this.pageNeighbours * 2 - 1); //eslint-disable-line
   };
 
   handleMoveRight = (evt) => {
     evt.preventDefault();
-    this.gotoPage(this.state.currentPage + (this.pageNeighbours * 2) + 1);
+    this.gotoPage(this.state.currentPage + this.pageNeighbours * 2 + 1); //eslint-disable-line
   };
 
   fetchPageNumbers = () => {
@@ -73,7 +73,7 @@ class Pagination extends Component {
     const currentPage = this.state.currentPage;
     const pageNeighbours = this.pageNeighbours;
 
-    const totalNumbers = (this.pageNeighbours * 2) + 3;
+    const totalNumbers = this.pageNeighbours * 2 + 3; //eslint-disable-line
     const totalBlocks = totalNumbers + 2;
 
     if (totalPages > totalBlocks) {
@@ -126,8 +126,8 @@ class Pagination extends Component {
         <nav aria-label="Countries Pagination">
           <ul className="pagination">
             {pages.map((page, index) => {
-              if (page === LEFT_PAGE) { 
-return (
+              if (page === LEFT_PAGE) {
+ return (
                   <li key={index} className="page-item">
                     <a
                       className="page-link"
@@ -183,7 +183,7 @@ return (
 }
 
 Pagination.propTypes = {
-  totalRecords: PropTypes.number,
+  totalRecords: PropTypes.number.isRequired,
   pageLimit: PropTypes.number,
   pageNeighbours: PropTypes.number,
   onPageChanged: PropTypes.func

@@ -21,35 +21,17 @@ export default class ProfileCard extends React.Component {
       showData: false,
       currentUsers: [],
       currentPage: null,
-      totalPages: null
+      totalPages: null,
+      initialPage: 1
     };
   }
 
-  handleChange = (username) => {
-    this.setState({ username }, () => {
-      fetch(`https://api.github.com/search/users?q=${this.state.user_name}`)
-        .then(response => response.json())
-        .then(
-          result =>
-            this.setState({
-              isLoading: true,
-              data: result.items,
-              totalCount: result.total_count,
-              showData: true
-            }),
-          (error) => {
-            throw error;
-            this.setState({ isLoading: true }); //eslint-disable-line
-          }
-        )
-        .catch(error => console.log("There is an error")); //eslint-disable-line
-    });
-  };
-
-  handlePageChange = (users) => {
-    const { data } = this.state;
+  onPageChanged = (users) => {
     const { currentPage, totalPages, pageLimit } = users;
-
+    console.log(currentPage); //eslint-disable-line
+    this.setState({ currentPage }, () =>
+      this.fetchData(this.state.username, currentPage));
+    const { data } = this.state;
     const offset = (currentPage - 1) * pageLimit;
     const currentUsers = data.slice(offset, offset + pageLimit);
 
@@ -59,6 +41,31 @@ export default class ProfileCard extends React.Component {
       totalPages,
       showData: true
     });
+  };
+
+  fetchData = (username, page) => {
+    fetch(`https://api.github.com/search/users?q=${username}&page=${page}`)
+      .then(response => response.json())
+      .then(
+        result =>
+          this.setState({
+            isLoading: true,
+            currentUsers: result.items,
+            totalCount: result.total_count,
+            showData: true,
+            page
+          }),
+        (error) => {
+          throw error;
+          this.setState({ isLoading: true }); //eslint-disable-line
+        }
+      )
+      .catch(error => console.log("There is an error")); //eslint-disable-line
+  };
+
+  handleChange = (username) => {
+    this.setState({ username }, () =>
+      this.fetchData(username, this.state.initialPage));
   };
 
   handleSorting = (key) => {
@@ -78,8 +85,6 @@ export default class ProfileCard extends React.Component {
       totalPages
     } = this.state;
 
-    const totalUsers = totalCount;
-    // if (totalUsers === 0) return null;
     if (!isLoading) return <div>Loading...</div>;
     return (
       <Fragment>
@@ -178,10 +183,10 @@ export default class ProfileCard extends React.Component {
           </div>
           {showData && (
             <Pagination
-              totalRecords={totalUsers}
-              pageLimit={5}
+              totalRecords={totalCount}
+              pageLimit={30}
               pageNeighbours={1}
-              onPageChanged={this.handlePageChange}
+              onPageChanged={this.onPageChanged}
             />
           )}
         </section>
