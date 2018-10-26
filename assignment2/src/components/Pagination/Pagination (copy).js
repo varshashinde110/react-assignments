@@ -6,7 +6,7 @@ const RIGHT_PAGE = 'RIGHT';
 
 const range = (from, to, step = 1) => {
   let i = from;
-  const range = []; //eslint-disable-line
+  const range = [];//eslint-disable-line
 
   while (i <= to) {
     range.push(i);
@@ -40,7 +40,7 @@ class Pagination extends Component {
 
   gotoPage = (page) => {
     const { onPageChanged = f => f } = this.props;
-    debugger; //eslint-disable-line
+
     const currentPage = Math.max(0, Math.min(page, this.totalPages));
 
     const paginationData = {
@@ -127,7 +127,7 @@ class Pagination extends Component {
           <ul className="pagination">
             {pages.map((page, index) => {
               if (page === LEFT_PAGE) {
-                return (
+ return (
                   <li key={index} className="page-item">
                     <a
                       className="page-link"
@@ -139,11 +139,11 @@ class Pagination extends Component {
                       <span className="sr-only">Previous</span>
                     </a>
                   </li>
-                );
-              }
+                ); 
+}
 
-              if (page === RIGHT_PAGE) {
-                return (
+              if (page === RIGHT_PAGE) { 
+return (
                   <li key={index} className="page-item">
                     <a
                       className="page-link"
@@ -155,8 +155,8 @@ class Pagination extends Component {
                       <span className="sr-only">Next</span>
                     </a>
                   </li>
-                );
-              }
+                ); 
+}
 
               return (
                 <li

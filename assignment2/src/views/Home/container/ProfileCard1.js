@@ -13,7 +13,6 @@ export default class ProfileCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      //   error: null,
       isLoading: true,
       data: [],
       totalCount: 0,
@@ -50,6 +49,7 @@ export default class ProfileCard extends React.Component {
         result =>
           this.setState({
             isLoading: true,
+            data: result.items,
             currentUsers: result.items,
             totalCount: result.total_count,
             showData: true,
@@ -70,9 +70,9 @@ export default class ProfileCard extends React.Component {
 
   handleSorting = (key) => {
     this.setState({ key });
-    const currentUsers = this.state.currentUsers;
-    currentUsers.sort((a, b) => a.key - b.key).reverse();
-    this.setState({ currentUsers });
+    const data = this.state.data;
+    data.sort((a, b) => a.key - b.key).reverse();
+    this.setState({ data });
   };
 
   render() {
@@ -97,8 +97,8 @@ export default class ProfileCard extends React.Component {
                     className="form-control"
                     onChange={e => this.handleSorting(e.target.value)}
                   >
-                    <option value="nameasc">Sort By Name Ascending</option>
-                    <option value="namedsc">Sort By Name Descending</option>
+                    <option value={this.state.data.login}>Sort By Name Ascending</option>
+                    <option value={this.state.data.login}>Sort By Name Descending</option>
                     <option value="rankasc">Sort By Rank Ascending</option>
                     <option value="rankdsc">Sort By Rank Descending</option>
                   </select>
