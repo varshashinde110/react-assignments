@@ -1,0 +1,29 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "first_name": "Aman",
+            "last_name": "Kumar"
+        },
+        {
+            "id": 2,
+            "first_name": "Anamika",
+            "last_name": "Anand"
+        },
+        {
+            "id": 3,
+            "first_name": "Kamini",
+            "last_name": "Tak"
+        },
+        {
+            "id": 4,
+            "first_name": "Gaurav",
+            "last_name": "Ostwal"
+        },
+        {
+            "id": 5,
+            "first_name": "Amit",
+            "last_name": "Thakkar"
+        }
+    ]
+}
